@@ -1,0 +1,30 @@
+#ranking {
+  width: 400px;
+  margin: 0 auto;
+}
+
+#ranking li {
+  list-style: none;
+}
+
+#ranking h2 {
+  color: white;
+  text-align: center;
+}
+
+.ranking-item {
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: rgb(6, 130, 68);
+  height: 80px;
+}
+
+.ranking-item img {
+  float: left;
+  width: 80px;
+  height: 80px;
+}
+
+.ranking-item p {
+  color: white;
+}

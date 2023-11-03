@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 import "./style/searchArtist.css";
 
-const token = process.env.REACT_APP_API_TOKEN;
-
-function SearchArthist() {
+function SearchArthist(props) {
   const [artistTerm, setArtistTerm] = useState("");
   const [artistInformation, setArtistInformation] = useState([]);
+
+  const token = props.token;
 
   const getArtist = (e) => {
     setArtistTerm(e.target.value);

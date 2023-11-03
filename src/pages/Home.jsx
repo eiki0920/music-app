@@ -1,32 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-function Home() {
-  const [token, setToken] = useState("");
-  const [playList, setPlaylist] = useState({});
+import "./style/Home.css";
 
-  useEffect(() => {
-    fetch(`https://accounts.spotify.com/api/token`, {
-      method: "POST",
-      headers: {
-        Authorization:
-          "Basic " +
-          btoa(
-            `${process.env.REACT_APP_API_CLIENT}:${process.env.REACT_APP_API_CLIENT_SECRET}`
-          ),
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        grant_type: "refresh_token",
-        refresh_token: process.env.REACT_APP_API_REFRESH_TOKEN,
-      }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((tokenData) => {
-        setToken(tokenData.access_token);
-      });
-  }, []);
+function Home(props) {
+  const [playList, setPlaylist] = useState([]);
+
+  const token = props.token;
 
   useEffect(() => {
     fetch(`https://api.spotify.com/v1/playlists/37i9dQZEVXbKXQ4mDTEBXq`, {
@@ -40,8 +20,7 @@ function Home() {
         return res.json();
       })
       .then((playlist) => {
-        console.log(playlist);
-        setPlaylist(playlist);
+        setPlaylist(playlist.tracks.items);
       })
       .catch((error) => {
         console.log("Error:", error);
@@ -52,6 +31,26 @@ function Home() {
   return (
     <>
       <h1>Home</h1>
+      <Link to="/search" state={{ token: token }}>
+        アーティスト検索
+      </Link>
+      <div id="ranking">
+        <h2>今日の国内ランキング</h2>
+        {playList.map((music) => (
+          <li className="ranking-item" key={music.track.id}>
+            <img
+              src={music.track.album.images[2].url}
+              className="ranking-img"
+              alt="アルバム画像"
+            />
+            <p className="ranking-music">{music.track.album.name}</p>
+            <p className="ranking-artist">
+              {music.track.album.artists[0].name}
+            </p>
+          </li>
+        ))}
+      </div>
+
       <h1>{playList.description}</h1>
     </>
   );

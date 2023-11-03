@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const token = process.env.REACT_APP_API_TOKEN;
-
-function ArtistDetail() {
+function ArtistDetail(props) {
   const params = useParams();
   const [artistData, setArtistData] = useState({});
 
+  const token = props.token;
+  console.log(token);
+
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}/artists/${params.artist_id}`, {
+    fetch(`https://api.spotify.com/v1/artists/${params.artist_id}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + token },
     })
